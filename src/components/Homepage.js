@@ -1,18 +1,34 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
 function Homepage({ startGame }) {
   const [difficulty, setDifficulty] = useState('easy');
   const [operation, setOperation] = useState('mix');
+  const [username, setUsername] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    startGame(difficulty, operation);
+    if (username.trim()) {
+      startGame(difficulty, operation, username);
+    } else {
+      alert('Please enter a username');
+    }
   };
 
   return (
     <div className="homepage">
-      <h2>Select Game Options</h2>
+      <h2>ADHD-Friendly Math Quiz</h2>
       <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
         <div className="form-group">
           <label htmlFor="difficulty">Difficulty:</label>
           <select
@@ -39,7 +55,14 @@ function Homepage({ startGame }) {
             <option value="division">Division</option>
           </select>
         </div>
-        <button type="submit" className="start-btn">Start Game</button>
+        <motion.button
+          type="submit"
+          className="start-btn"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          Start Game
+        </motion.button>
       </form>
     </div>
   );
